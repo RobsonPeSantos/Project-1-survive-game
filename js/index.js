@@ -6,8 +6,8 @@ canvas.height = 600;
 document.body.appendChild(canvas);
 
 const survivor = {
-    x: 25,
-    y: 25,
+    x: Math.random()*(canvas.width -100),
+    y: Math.random()*(canvas.width -100),
     moveUp:    function() { this.y -= 25 },
     moveDown:  function() { this.y += 25 },
     moveLeft:  function() { this.x -= 25 },
@@ -17,7 +17,7 @@ const survivor = {
   function draw(survivor) {
     const img = new Image();
     img.onload = () => { 
-       ctx.drawImage(img, survivor.x, survivor.y, 50, 50); 
+       ctx.drawImage(img, survivor.x, survivor.y, 80, 80); 
     }
     img.src = "/images/survivor-move_knife_0.png";
   }
@@ -46,13 +46,58 @@ const survivor = {
     }
     updateCanvas();
   })
+
+  const zombie = {
+    x: Math.random()*(canvas.width -200),
+    y: Math.random()*(canvas.width -200),
+    moveUp:    function() { this.y -= 25 },
+    moveDown:  function() { this.y += 25 },
+    moveLeft:  function() { this.x -= 25 },
+    moveRight: function() { this.x += 25 },
+
+    
+  }
+  
+  function draw2(zombie) {
+   
+    const zombieImg = new Image();
+    zombieImg.onload = () => { 
+       ctx.drawImage(zombieImg, zombie.x, zombie.y, 90, 90); 
+       
+    }
+    zombieImg.src = "/images/zombie-attack_0.png";
+  }
+
+  const door = {
+    x: Math.random()*(canvas.width -500),
+    y: Math.random()*(canvas.width -10),
+    moveUp:    function() { this.y -= 25 },
+    moveDown:  function() { this.y += 25 },
+    moveLeft:  function() { this.x -= 25 },
+    moveRight: function() { this.x += 25 },
+  }
+  
+  function draw3(door) {
+    const doorImg = new Image();
+    doorImg.onload = () => { 
+       ctx.drawImage(doorImg, door.x, door.y, 90, 90); 
+    }
+    doorImg.src = "/images/door.png";
+  }
+
+
+  
   
   function updateCanvas() {
     ctx.clearRect(0,0,1500,1700);
     
     
     draw(survivor);
+    draw2(zombie) * 5;
+    draw3(door);
+ 
   }
+  
   
   updateCanvas()
 }
