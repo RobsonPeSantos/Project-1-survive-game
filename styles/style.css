@@ -5,6 +5,8 @@ body > canvas {
 }
 
 header {
+    color: red;
+    text-shadow: black;
     display: flex;
     flex-direction: row;
 	flex-wrap: nowrap;
