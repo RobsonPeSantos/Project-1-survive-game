@@ -2,30 +2,21 @@ window.onload = function () {
   let currentGame;
   let currentSurvivor;
   let currentDoor;
-  let mySound;
+  const music = new Audio();
+  music.src = "../sounds/2020-02-16_-_Anxiety_-_David_Fesliyan.mp3"
+  music.volume = 0.5;
+  const deathBite = new Audio();
+  deathBite.src = "../sounds/Zombie-Biting-A2-www.fesliyanstudios.com.mp3"
+  const zombieHorde = new Audio();
+  zombieHorde.src = "../sounds/Large-Zombie-Horde-www.fesliyanstudios.com.mp3"
+  zombieHorde.volume = 0.5;
+  const openSound = new Audio();
+  openSound.src = "../sounds/door-3-open.mp3"
+  let escaped = 0;
 
   document.getElementById('game-board').style.display = 'none';
   const myCanvas = document.getElementById('the-canvas');
   const ctx = myCanvas.getContext('2d');
-
-  //sound fx function
-  class sound {
-    constructor(src) {
-      this.sound = document.createElement("audio");
-      this.sound.src = src;
-      this.sound.setAttribute("preload", "auto");
-      this.sound.setAttribute("controls", "none");
-      this.sound.style.display = "none";
-      document.body.appendChild(this.sound);
-      this.play = function () {
-        this.sound.play();
-      };
-      this.stop = function () {
-        this.sound.pause();
-      };
-    }
-  }
-
 
   //Game Class
   class Game {
@@ -33,7 +24,6 @@ window.onload = function () {
       this.survivor = {} // survivor => object
       this.zombies = [] // zombies => array
       this.door = {}
-      this.escaped = 0
     }
   }
 
@@ -44,7 +34,7 @@ window.onload = function () {
       this.y = 480
       this.width = 50
       this.height = 50
-      this.img = '/images/survivor-move_knife_0.png'
+      this.img = '../images/survivor-move_knife_0.png'
     }
 
     drawSurvivor () {
@@ -87,7 +77,7 @@ window.onload = function () {
       this.y = Math.random()*(myCanvas.height -100),
       this.width = 70
       this.height = 70
-      this.img = '/images/door.png';
+      this.img = '../images/door.png';
     }
 
     drawDoor () {
@@ -126,7 +116,7 @@ window.onload = function () {
       this.y = y
       this.width = 70
       this.height = 70
-      this.img = '/images/zombie-attack_0.png';
+      this.img = '../images/zombie-attack_0.png';
     }
 
     drawZombie () {
@@ -147,9 +137,9 @@ window.onload = function () {
 
   // Colision with zombies
   function detectCollision (zombie) {
-    return !((currentSurvivor.y - 5> zombie.getBottom()) ||
-      (currentSurvivor.x + currentSurvivor.width < zombie.getLeft()) ||
-      (currentSurvivor.x - 5 > zombie.getRight()))
+    return !((currentSurvivor.y + 20> zombie.getBottom()) ||
+      ((currentSurvivor.x  + 20)+ currentSurvivor.width < zombie.getLeft()) ||
+      (currentSurvivor.x + 20 > zombie.getRight()))
   }
 
   // Entering doors
@@ -181,10 +171,9 @@ window.onload = function () {
     // console.log(currentGame);
     currentDoor.drawDoor()
 
-    //sound
-    mySound = new sound('/sounds/musica-the-walking-dead.mp3')
-
-  
+    //music
+    music.play();
+    zombieHorde.play();
 
     update()
   }
@@ -199,8 +188,10 @@ window.onload = function () {
     frames++
 
     if (enterDoor(currentDoor) === true){
+      escaped +=1;
+      openSound.play();
+      document.getElementById('escaped').innerHTML = escaped;
       startGame();
-      document.getElementById('escaped').innerHTML = currentGame.escaped += 1;
     }
 
     if (frames % 100 === 1) {
@@ -215,18 +206,19 @@ window.onload = function () {
       currentGame.zombies[i].drawZombie()
 
       if (detectCollision(currentGame.zombies[i])) {
+        deathBite.play()
+        escaped  == 0;
         ctx.fillStyle = "rgba(0, 0, 0, 0.7)";   
         ctx.fillRect(50, 20, 800, 800);       
         ctx.fillStyle = "red";   
         ctx.font = "44px Helvetica";   
         ctx.fillText("You died!", 350, 270); 
 
-        frames = 0
-        currentGame.escaped = 0
-        document.getElementById('escaped').innerHTML = currentGame.escaped
+        cancelAnimationFrame();
+        document.getElementById('escaped').innerHTML = escaped
 
         currentGame.zombies = []
-        document.getElementById('game-board').style.display = 'none'
+        
       }
 
       if (currentGame.zombies[i].y >= 600) {
