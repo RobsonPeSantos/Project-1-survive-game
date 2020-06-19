@@ -2,6 +2,8 @@ window.onload = function () {
   let currentGame;
   let currentSurvivor;
   let currentDoor;
+  let currentFurniture;
+  let currentDeadBody;
   const music = new Audio();
   music.src = "../sounds/2020-02-16_-_Anxiety_-_David_Fesliyan.mp3"
   music.volume = 0.5;
@@ -12,11 +14,48 @@ window.onload = function () {
   zombieHorde.volume = 0.5;
   const openSound = new Audio();
   openSound.src = "../sounds/door-3-open.mp3"
+  const defeat= new Audio();
+  defeat.src = "../sounds/Defeat.mp3"
   let escaped = 0;
 
   document.getElementById('game-board').style.display = 'none';
   const myCanvas = document.getElementById('the-canvas');
   const ctx = myCanvas.getContext('2d');
+
+//Furniture class
+class Furniture {
+  constructor () {
+    this.x = Math.random()*(myCanvas.width -100),
+    this.y = Math.random()*(myCanvas.height -100),
+    this.width = 90
+    this.height = 90
+    this.img = '../images/bearcarpet.png';
+  }
+
+  drawFurniture () {
+    const furnitureImg = new Image()
+    furnitureImg.src = this.img
+    ctx.drawImage(furnitureImg, this.x, this.y, this.width, this.height)
+  }
+}
+
+//Dead body
+class DeadBody {
+  constructor () {
+    this.x = Math.random()*(myCanvas.width -100),
+    this.y = Math.random()*(myCanvas.height -100),
+    this.width = 90
+    this.height = 90
+    this.img = '../images/dead.png';
+  }
+
+  drawDeadBody () {
+    const deadBodyImg = new Image()
+    deadBodyImg.src = this.img
+    ctx.drawImage(deadBodyImg, this.x, this.y, this.width, this.height)
+  }
+}
+
 
   //Game Class
   class Game {
@@ -159,17 +198,29 @@ window.onload = function () {
     document.getElementById('game-board').style.display = 'block'
     currentGame = new Game()
 
-    // draw the survivor
-    currentSurvivor = new Survivor()
-    currentGame.survivor = currentSurvivor
+    // draw the dead body
+    currentDeadBody = new DeadBody()
+    currentGame.DeadBody = currentDeadBody
     // console.log(currentGame);
-    currentSurvivor.drawSurvivor()
+    currentDeadBody.drawDeadBody()
+
+    // draw the furniture
+    currentFurniture = new Furniture()
+    currentGame.furniture = currentFurniture
+    // console.log(currentGame);
+    currentFurniture.drawFurniture()
 
     // draw the door
     currentDoor = new Door()
     currentGame.door = currentDoor
     // console.log(currentGame);
     currentDoor.drawDoor()
+
+    // draw the survivor
+    currentSurvivor = new Survivor()
+    currentGame.survivor = currentSurvivor
+    // console.log(currentGame);
+    currentSurvivor.drawSurvivor()
 
     //music
     music.play();
@@ -183,8 +234,10 @@ window.onload = function () {
   // update
   function update () {
     ctx.clearRect(0, 0, 900, 550)
-    currentSurvivor.drawSurvivor()
     currentDoor.drawDoor()
+    currentFurniture.drawFurniture()
+    currentDeadBody.drawDeadBody()
+    currentSurvivor.drawSurvivor()
     frames++
 
     if (enterDoor(currentDoor) === true){
@@ -207,6 +260,10 @@ window.onload = function () {
 
       if (detectCollision(currentGame.zombies[i])) {
         deathBite.play()
+        zombieHorde.pause();
+        music.pause();
+        defeat.play();
+
         ctx.fillStyle = "rgba(0, 0, 0, 0.7)";   
         ctx.fillRect(50, 20, 800, 800);       
         ctx.fillStyle = "red";   
