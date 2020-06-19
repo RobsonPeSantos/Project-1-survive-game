@@ -9,17 +9,17 @@ window.onload = function () {
   
   //sounds creation
   const music = new Audio();
-  music.src = "../sounds/2020-02-16_-_Anxiety_-_David_Fesliyan.mp3"
+  music.src = "./sounds/2020-02-16_-_Anxiety_-_David_Fesliyan.mp3"
   music.volume = 0.5;
   const deathBite = new Audio();
-  deathBite.src = "../sounds/Zombie-Biting-A2-www.fesliyanstudios.com.mp3"
+  deathBite.src = "./sounds/Zombie-Biting-A2-www.fesliyanstudios.com.mp3"
   const zombieHorde = new Audio();
-  zombieHorde.src = "../sounds/Large-Zombie-Horde-www.fesliyanstudios.com.mp3"
+  zombieHorde.src = "./sounds/Large-Zombie-Horde-www.fesliyanstudios.com.mp3"
   zombieHorde.volume = 0.5;
   const openSound = new Audio();
-  openSound.src = "../sounds/door-3-open.mp3"
+  openSound.src = "./sounds/door-3-open.mp3"
   const defeat= new Audio();
-  defeat.src = "../sounds/Defeat.mp3"
+  defeat.src = "./sounds/Defeat.mp3"
   let escaped = 0;
 
   document.getElementById('game-board').style.display = 'none';
@@ -33,7 +33,7 @@ class Furniture {
     this.y = Math.random()*(myCanvas.height -100),
     this.width = 90
     this.height = 90
-    this.img = '../images/bearcarpet.png';
+    this.img = './images/bearcarpet.png';
   }
 
   drawFurniture () {
@@ -50,7 +50,7 @@ class DeadBody {
     this.y = Math.random()*(myCanvas.height -100),
     this.width = 90
     this.height = 90
-    this.img = '../images/dead.png';
+    this.img = './images/dead.png';
   }
 
   drawDeadBody () {
@@ -77,7 +77,7 @@ class DeadBody {
       this.y = 480
       this.width = 50
       this.height = 50
-      this.img = '../images/survivor-move_knife_0.png'
+      this.img = './images/survivor-move_knife_0.png'
     }
 
     drawSurvivor () {
@@ -120,7 +120,7 @@ class DeadBody {
       this.y = Math.random()*(myCanvas.height -100),
       this.width = 70
       this.height = 70
-      this.img = '../images/door.png';
+      this.img = './images/door.png';
     }
 
     drawDoor () {
@@ -159,7 +159,7 @@ class DeadBody {
       this.y = y
       this.width = 70
       this.height = 70
-      this.img = '../images/zombie-attack_0.png';
+      this.img = './images/zombie-attack_0.png';
     }
 
     drawZombie () {
