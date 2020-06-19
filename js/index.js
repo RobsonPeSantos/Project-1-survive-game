@@ -1,9 +1,13 @@
 window.onload = function () {
+  
+  //access variables
   let currentGame;
   let currentSurvivor;
   let currentDoor;
   let currentFurniture;
   let currentDeadBody;
+  
+  //sounds creation
   const music = new Audio();
   music.src = "../sounds/2020-02-16_-_Anxiety_-_David_Fesliyan.mp3"
   music.volume = 0.5;
@@ -172,11 +176,15 @@ class DeadBody {
     getBottom () {
       return this.y + this.height
     }
+    getTop () {
+      return this.y 
+    }
   }
 
   // Colision with zombies
   function detectCollision (zombie) {
     return !((currentSurvivor.y + 20> zombie.getBottom()) ||
+      ((currentSurvivor.y  + 20)+ currentSurvivor.height < zombie.getTop()) ||
       ((currentSurvivor.x  + 20)+ currentSurvivor.width < zombie.getLeft()) ||
       (currentSurvivor.x + 20 > zombie.getRight()))
   }
@@ -225,11 +233,13 @@ class DeadBody {
     //music
     music.play();
     zombieHorde.play();
+    defeat.pause();
 
     update()
   }
 
   let frames = 0
+  
 
   // update
   function update () {
