@@ -25,6 +25,7 @@ body {
         display: inline-block;
         padding: 20px 40px;
         font-size: 30px;
+        font-family: "Amatic SC";
         cursor: pointer;
         text-align: center;
         text-decoration: none;
@@ -34,6 +35,7 @@ body {
         border: none;
         border-radius: 15px;
         box-shadow: 0 9px rgb(82, 19, 19);
+        margin-left: 100px;
       }
       
   button:hover {background-color: red}
@@ -51,23 +53,23 @@ body {
     background-image: url("/images/floor.jpg");
     background-size: contain;
     border: 2px solid black;
+    border-radius: 10px;
   }
 
-  embed {
-      style: none;
-  }
 
   .game-history {
       background-color: #FFFFE099;
-      border: 1px solid red;
+      border: 1px solid black;
+      font-family: "Amatic SC";
       display: flex;
       margin-left: 1000px;
-      width: 400px;
+      width: 350px;
       height: 200px;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 200;
       color: black;
-      text-align: justify;
+      align-content: stretch;
+      border-radius: 5px;
   }
 
   body {
@@ -78,6 +80,9 @@ body {
 
   h1 {
       margin-left: 110px;
+      font-family: "Amatic SC";
+      font-size: 50px;
+      text-shadow: 2px 2px red;
   }
 
   h1:hover {color: red}
@@ -90,4 +95,12 @@ body {
   
   footer {
       color: white;
+      margin-right: 40px;
   }    
+
+  #score-div {
+      font-family: "Amatic SC";
+      margin-right: 60px;
+      font-size: 30px;
+      text-shadow: 2px 2px white;
+  }

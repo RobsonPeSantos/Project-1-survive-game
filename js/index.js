@@ -1,10 +1,31 @@
 window.onload = function () {
   let currentGame;
   let currentSurvivor;
+  let currentDoor;
+  let mySound;
 
   document.getElementById('game-board').style.display = 'none';
   const myCanvas = document.getElementById('the-canvas');
   const ctx = myCanvas.getContext('2d');
+
+  //sound fx function
+  class sound {
+    constructor(src) {
+      this.sound = document.createElement("audio");
+      this.sound.src = src;
+      this.sound.setAttribute("preload", "auto");
+      this.sound.setAttribute("controls", "none");
+      this.sound.style.display = "none";
+      document.body.appendChild(this.sound);
+      this.play = function () {
+        this.sound.play();
+      };
+      this.stop = function () {
+        this.sound.pause();
+      };
+    }
+  }
+
 
   //Game Class
   class Game {
@@ -21,8 +42,8 @@ window.onload = function () {
     constructor () {
       this.x = 220
       this.y = 520
-      this.width = 70
-      this.height = 70
+      this.width = 50
+      this.height = 50
       this.img = '/images/survivor-move_knife_0.png'
     }
 
@@ -36,22 +57,22 @@ window.onload = function () {
       ctx.clearRect(this.x, this.y, this.width, this.height)
       switch (num) {
         case 37:
-          if (this.x > 20) {
+          if (this.x > 0) {
             this.x -= 10
           }
           break
         case 39:
-          if (this.x < 600) {
+          if (this.x < 850) {
             this.x += 10
           }
           break
         case 38:
-            if (this.y > 20) {
+            if (this.y > 0) {
               this.y -= 10
             }
             break
         case 40:
-            if (this.y < 900) {
+            if (this.y < 550) {
                 this.y += 10
             }
           break    
@@ -62,14 +83,14 @@ window.onload = function () {
   //Door Class
   class Door {
     constructor () {
-      this.x = 100
-      this.y = 100
+      this.x = Math.random()*(myCanvas.width -100),
+      this.y = Math.random()*(myCanvas.height -100),
       this.width = 70
       this.height = 70
       this.img = '/images/door.png';
     }
 
-    drawSurvivor () {
+    drawDoor () {
       const doorImg = new Image()
       doorImg.src = this.img
       ctx.drawImage(doorImg, this.x, this.y, this.width, this.height)
@@ -78,15 +99,15 @@ window.onload = function () {
     
     }
 
-  // KEYDOWN EVENT LISTENER ===============
+  //Keydown function
   document.onkeydown = function (e) {
-    // console.log('what is e: ', e);
+   
     let whereToGo = e.keyCode
     currentGame.survivor.moveSurvivor(whereToGo)
-    // currentCar.moveCar(whereToGo);
+   
   }
 
-  // OBSTACLE ============================
+  // Zombieeees
   class Zombie {
     constructor (x, y, width, height) {
       this.x = x
@@ -112,58 +133,67 @@ window.onload = function () {
     }
   }
 
-  // COLLISION DETECTION ====================
+  // Colision with zombies
   function detectCollision (zombie) {
     return !((currentSurvivor.y > zombie.getBottom()) ||
       (currentSurvivor.x + currentSurvivor.width < zombie.getLeft()) ||
       (currentSurvivor.x - 5 > zombie.getRight()))
   }
 
-  // START GAME ============================
+  // Entering doors
+  function enterDoor (door) {
+    return !((currentSurvivor.y > door.getBottom()) ||
+      (currentSurvivor.x + currentSurvivor.width < door.getLeft()) ||
+      (currentSurvivor.x - 5 > door.getRight()))
+  }
+
+  // Start
   document.getElementById('start-button').onclick = function () {
     startGame()
   }
 
   function startGame () {
-    // draw the board -----------------------
+    // draw the board
     document.getElementById('game-board').style.display = 'block'
     currentGame = new Game()
 
-    // draw the car -----------------------
+    // draw the survivor
     currentSurvivor = new Survivor()
     currentGame.survivor = currentSurvivor
     // console.log(currentGame);
     currentSurvivor.drawSurvivor()
 
-    // example with one obstacle;
-    // let obstacle1 = new Obstacle(30, 40, 50, 50);
-    // let obstacle2 = new Obstacle(60, 90, 50, 100);
-    // let obstacle3 = new Obstacle(120, 190, 50, 100);
-    // before we push obstacles in the array:
-    // // obstacle2.drawObstacle();
-    // // obstacle1.drawObstacle();
+    // draw the door
+    currentDoor = new Door()
+    currentGame.door = currentDoor
+    // console.log(currentGame);
+    currentDoor.drawDoor()
 
-    // if we push obstacles in the array:
-    // currentGame.obstacles.push(obstacle1, obstacle2, obstacle3);
-    // for(let i=0; i < currentGame.obstacles.length; i++){
-    //   currentGame.obstacles[i].drawObstacle();
-    // }
+    //sound
+    mySound = new sound('/sounds/musica-the-walking-dead.mp3')
 
-    // update the board -----------------------
+  
+
     update()
   }
 
   let frames = 0
 
-  // UPDATE BOARD ============================
+  // update
   function update () {
-    ctx.clearRect(0, 0, 900, 600)
+    ctx.clearRect(0, 0, 900, 550)
     currentSurvivor.drawSurvivor()
+    currentDoor.drawDoor()
     frames++
 
+    if (enterDoor(door) === true){
+      update();
+      return escaped += 1;
+    }
+
     if (frames % 100 === 1) {
-      randomZombieX = Math.floor(Math.random() * 450)
-      zombieY = 0 // always starts on the top
+      randomZombieX = Math.floor(Math.random() * 900)
+      zombieY = 0;
       let zombie = new Zombie(randomZombieX, zombieY)
       currentGame.zombies.push(zombie)
     }
@@ -177,7 +207,7 @@ window.onload = function () {
         ctx.fillRect(50, 20, 800, 800);       
         ctx.fillStyle = "red";   
         ctx.font = "44px Helvetica";   
-        ctx.fillText("You died!", 400, 270); 
+        ctx.fillText("You died!", 350, 270); 
 
         frames = 0
         currentGame.escaped = 0
@@ -189,9 +219,8 @@ window.onload = function () {
 
       if (currentGame.zombies[i].y >= 600) {
         currentGame.zombies.splice(i, 1)
-        currentGame.escaped++
-        document.getElementById('escaped').innerHTML = currentGame.escaped
       }
+      
     }
 
     requestAnimationFrame(update)
