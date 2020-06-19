@@ -207,16 +207,15 @@ window.onload = function () {
 
       if (detectCollision(currentGame.zombies[i])) {
         deathBite.play()
-        escaped  == 0;
         ctx.fillStyle = "rgba(0, 0, 0, 0.7)";   
         ctx.fillRect(50, 20, 800, 800);       
         ctx.fillStyle = "red";   
         ctx.font = "44px Helvetica";   
         ctx.fillText("You died!", 350, 270); 
-
+        escaped = 0;
+        document.getElementById('escaped').innerHTML = escaped;
         cancelAnimationFrame();
-        document.getElementById('escaped').innerHTML = escaped
-
+       
         currentGame.zombies = []
         
       }
