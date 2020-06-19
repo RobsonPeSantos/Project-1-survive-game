@@ -41,7 +41,7 @@ window.onload = function () {
   class Survivor {
     constructor () {
       this.x = 220
-      this.y = 520
+      this.y = 480
       this.width = 50
       this.height = 50
       this.img = '/images/survivor-move_knife_0.png'
@@ -95,6 +95,18 @@ window.onload = function () {
       doorImg.src = this.img
       ctx.drawImage(doorImg, this.x, this.y, this.width, this.height)
     }
+    getLeft () {
+      return this.x
+    }
+    getRight () {
+      return this.x + this.width
+    }
+    getBottom () {
+      return this.y + this.height
+    }
+    getTop () {
+      return this.y 
+    }
 
     
     }
@@ -135,7 +147,7 @@ window.onload = function () {
 
   // Colision with zombies
   function detectCollision (zombie) {
-    return !((currentSurvivor.y > zombie.getBottom()) ||
+    return !((currentSurvivor.y - 5> zombie.getBottom()) ||
       (currentSurvivor.x + currentSurvivor.width < zombie.getLeft()) ||
       (currentSurvivor.x - 5 > zombie.getRight()))
   }
@@ -186,9 +198,9 @@ window.onload = function () {
     currentDoor.drawDoor()
     frames++
 
-    if (enterDoor(door) === true){
-      update();
-      return escaped += 1;
+    if (enterDoor(currentDoor) === true){
+      startGame();
+      document.getElementById('escaped').innerHTML = currentGame.escaped += 1;
     }
 
     if (frames % 100 === 1) {
