@@ -1,35 +1,93 @@
-body > canvas {
-    border: 1px solid black;
-    background-image: url(/images/floor.jpg);
-    
-}
+body {
+    padding: 0;
+    text-align: center;
+  }
+  
+  .game-intro {
+    float: left;
+    padding: 0% 10%;
+  }
+  
+  .game-intro p {
+    font-size: 18px;
+    font-family: "Verdana";
+  }
+  
+  .logo-img {
+    width: 350px;
+  }
+  
+  .arrows-img {
+    width: 150px;
+  }
+  
+  body button {
+        display: inline-block;
+        padding: 20px 40px;
+        font-size: 30px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: maroon;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px rgb(82, 19, 19);
+      }
+      
+  button:hover {background-color: red}
+      
+  button:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+      }
+  
+  
+  #game-board {
+    float: left;
+    padding: 20px 0px;
+    background-image: url("/images/floor.jpg");
+    background-size: contain;
+    border: 2px solid black;
+  }
 
-header {
-    color: red;
-    text-shadow: black;
-    display: flex;
-    flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-around;
-	align-items: center;
-    align-content: stretch;
-}
+  embed {
+      style: none;
+  }
 
-.main {
-    display: flex;
-    flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: center;
-	align-items: center;
-    align-content: stretch;
+  .game-history {
+      background-color: #FFFFE099;
+      border: 1px solid red;
+      display: flex;
+      margin-left: 1000px;
+      width: 400px;
+      height: 200px;
+      font-size: 20px;
+      font-weight: 200;
+      color: black;
+      text-align: justify;
+  }
 
-}
+  body {
+      background-image: url(/images/zombies.jpg);
+      background-repeat: no-repeat;
+      background-size: cover;
+  }
 
-footer {
-    display: flex;
-    flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-around;
-	align-items: center;
-    align-content: stretch;
-}
+  h1 {
+      margin-left: 110px;
+  }
+
+  h1:hover {color: red}
+      
+  h1:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+      }
+  
+  footer {
+      color: white;
+  }    
