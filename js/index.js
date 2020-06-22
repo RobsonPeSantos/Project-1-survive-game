@@ -25,9 +25,7 @@ window.onload = function () {
   const myCanvas = document.getElementById('the-canvas');
   const ctx = myCanvas.getContext('2d');
   document.getElementById('game-board').style.display = 'block'
-  myCanvas.img = new Img();
-  myCanvasImg.src = 4
-
+  
 //Furniture class
 class Furniture {
   constructor () {
